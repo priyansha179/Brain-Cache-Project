@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from database import engine
-from routers import tasks, notes # <-- Make sure 'notes' is here!
+from routers import tasks, notes, chat  # <-- Make sure 'chat' is imported here
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -17,7 +17,8 @@ app.add_middleware(
 )
 
 app.include_router(tasks.router)
-app.include_router(notes.router) # <-- THIS LINE IS CRITICAL!
+app.include_router(notes.router)
+app.include_router(chat.router)  # <-- Make sure 'chat' is included here
 
 @app.get("/")
 def read_root():
